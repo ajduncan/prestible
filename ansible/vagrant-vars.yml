@@ -1,0 +1,11 @@
+vagrant: true
+locale: en_US.UTF-8
+user_name: vagrant
+user_directory: /home/{{ user_name }}
+project_name: prestible
+project_directory: /{{ user_name }}
+
+hostname: localhost
+dbuser: prestashop
+dbname: prestashop
+dbpassword: prestashop

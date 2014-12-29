@@ -1,0 +1,35 @@
+- name: Install apache2
+  apt: name=apache2 state=present
+
+- name: Enable mod_rewrite
+  command: a2enmod rewrite
+
+# Only if using vagrant
+- name: Install apache site
+  template: src=prestashop_vhost dest=/etc/apache2/sites-available/000-default.conf
+  when: vagrant
+
+- name: Install php
+  apt: name={{ item }} state=present
+  with_items:
+    - php5
+    - php5-curl
+    - php5-mcrypt
+    - php5-gd
+    - php5-mysql
+
+- name: Download Prestashop
+  get_url: url=http://www.prestashop.com/download/old/prestashop_1.6.0.9.zip dest=/tmp/prestashop.zip
+
+- name: Create prestashop project directory
+  file: path={{ project_directory }}/prestashop state=directory
+
+- name: Install Prestashop
+  unarchive: src=/tmp/prestashop.zip dest={{ project_directory }} copy=no
+
+- name: Fix /vagrant permissions
+  file: path={{ project_directory }} state=directory owner=www-data group=www-data recurse=yes
+  when: vagrant
+
+- name: Ensure apache2 is running
+  service: name=apache2 state=started
