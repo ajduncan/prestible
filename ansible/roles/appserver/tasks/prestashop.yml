@@ -1,0 +1,8 @@
+- name: Download Prestashop
+  get_url: url=http://www.prestashop.com/download/old/prestashop_1.6.0.9.zip dest=/tmp/prestashop.zip
+
+- name: Create prestashop project directory
+  file: path={{ project_directory }}/prestashop state=directory
+
+- name: Install Prestashop
+  unarchive: src=/tmp/prestashop.zip dest={{ project_directory }} copy=no

@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot {{ project_directory }}/prestashop
+
+    <Directory "{{ project_directory }}/prestashop">
+        AllowOverride All
+        Options -Indexes +FollowSymLinks
+        Allow from all
+        Order deny,allow
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
